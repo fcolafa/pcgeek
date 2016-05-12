@@ -46,6 +46,8 @@ class Usuarios extends CActiveRecord
 			array('COD_TIPO_USUARIO', 'length', 'max'=>3),
 			array('NOMBRE_USUARIO', 'user_exist', 'on'=>'create'),
                         array('EMAIL_USUARIO','email'),
+                        array('EMAIL_USUARIO,NOMBRE_USUARIO','unique'),
+                        
                         array('_RPT_CONTRASENA, _PASSANTIGUA', 'safe'),
                         array('_PASSANTIGUA','updatePassword','on'=>'update'),
                         array('EMAIL_USUARIO', 'length', 'max'=>60),

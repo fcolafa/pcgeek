@@ -30,17 +30,17 @@ class ClientesController extends Controller
 			//RU
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view','admin'),
-				'expression'=>'$user->T1()',
+				'expression'=>'$user->T1()&&!$user->isFTime()',
 			),
 			//CRU
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','admin','index','view'),
-				'expression'=>'$user->A2()',
+				'expression'=>'$user->A2()&&!$user->isFTime()',
 			),
 			//CRUD todos los permisos otorgados a las cuentas indicadas
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','admin','delete','index','view'),
-				'expression'=>'$user->A1()',
+				'expression'=>'$user->A1()&&!$user->isFTime()',
 			),
 			
 			array('deny',  // deny all users

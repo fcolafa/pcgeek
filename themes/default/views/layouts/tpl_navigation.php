@@ -49,9 +49,8 @@
 //                        array('label'=>'Soporte','url'=>array('Ticket/admin')),
 //                        array('label'=>'Salir ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 //                        ),
-//                    )); 
-                
-                
+//                    ));        
+if(Yii::app()->user->isFTime()==0){               
 $this->widget('ext.multilevelmenu.MultilevelHorizontalMenu',
 array(
 "menu"=>array(
@@ -182,12 +181,26 @@ array(
                            "htmlOptions"=>array("target"=>"_BLANK","visible"=>!Yii::app()->user->isGuest)),
                            "label"=>Yii::t('actions','Logout')),
                            "visible"=>!Yii::app()->user->isGuest,
-        
+
+                ),
+             
        
-                )
+       
+               
+   
           ),
 )
 );
+}else
+$this->widget('ext.multilevelmenu.MultilevelHorizontalMenu',
+array(
+"menu"=>array(
+             array("url"=>array("route"=>'site/index'),
+                       "label"=>'Inicio'),
+          ),
+
+));
+
 ?>
       
 

@@ -31,22 +31,22 @@ class InformesController extends Controller
 			//R
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view','admin'),
-				'expression'=>'$user->C1()',
+				'expression'=>'$user->C1()&&!$user->isFTime()',
 			),
 			//RU
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view','admin','delete'),
-				'expression'=>'$user->A2()',
+				'expression'=>'$user->A2()&&!$user->isFTime()',
 			),
 			//CRU
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','validarVisita','admin','index','view','obtenerSucursales'),
-				'expression'=>'$user->T1()',	
+				'expression'=>'$user->T1()&&!$user->isFTime()',	
 			),
 			//CRUD todos los permisos otorgados a las cuentas indicadas
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','validarVisita','admin','delete','index','view','obtenerSucursales'),
-				'expression'=>'$user->A1()',
+				'expression'=>'$user->A1()&&!$user->isFTime()',
 			),
 			
 			array('deny',  // deny all users

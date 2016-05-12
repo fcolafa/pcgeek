@@ -27,12 +27,21 @@ class UsuariosController extends Controller
 	public function accessRules()
 	{
 		return array(
-			
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','view','update','create','nuevoTecnico','admin','delete'),
+				'actions'=>array('index','view','create','nuevoTecnico','admin','delete','getAdminAction'),
 				//'users'=>array('admin'),
-				'expression'=>'$user->A1() || $user->A2()',
+				'expression'=>'$user->A1() || $user->A2()&&!$user->isFTime()',
 			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('update','getAdminAction'),
+				//'users'=>array('admin'),
+				'expression'=>'$user->A1() && !$user->isFTime()',
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('updateProfile','getAdminAction'),
+				'users'=>array('*'),
+			),
+			
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
@@ -75,7 +84,7 @@ class UsuariosController extends Controller
                         $model->CONTRASENA = md5($pass);
                         $model->_RPT_CONTRASENA = md5($pass);
                         $model->FECHA_CREACION_USUARIO=  date("y/m/d H:i:s");
-                        $model->PRIMER_LOGIN=0;
+                        $model->PRIMER_LOGIN=1;
                             if($model->save()&& $this->sendMail($model,$pass)){
                                     $this->redirect(array('view','id'=>$model->ID_USUARIO));
                             }   
@@ -99,7 +108,50 @@ class UsuariosController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
                 $pass= $model->CONTRASENA;
+                $isUpdate=false;
+                 if(Yii::app()->user->getUser_Id()!=$id){
                 $model->CONTRASENA='';
+                //$model->CONTRASENA = '';
+                $model->_RPT_CONTRASENA = '';
+                $isUpdate=true;
+                }
+               
+		if(isset($_POST['Usuarios']))
+		{
+                        
+			$model->attributes=$_POST['Usuarios'];
+                            if($isUpdate && !empty($model->CONTRASENA) && !empty($model->_RPT_CONTRASENA )){
+                                $model->CONTRASENA = md5($model->CONTRASENA);
+                                $model->_RPT_CONTRASENA = md5($model->_RPT_CONTRASENA);
+                       
+                        }
+			//$model->CONTRASENA=md5($model->CONTRASENA); //Encriptar en MD5
+			if($model->save())
+                                if($isUpdate){
+                                    $model->CONTRASENA = '';
+                                    $model->_RPT_CONTRASENA = '';
+                                }
+				$this->redirect(array('view','id'=>$model->ID_USUARIO));
+                        
+                   
+		}
+
+		$this->render('update',array(
+			'model'=>$model,
+		));
+	}
+        public function actionUpdateProfile($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+                $pass= $model->CONTRASENA;
+                $model->CONTRASENA='';
+                //$model->CONTRASENA = '';
+                $model->_RPT_CONTRASENA = '';
+                if(Yii::app()->user->getUser_Id()!=$id)
+                    throw new CHttpException(404, 'Usted no esta autorizado para realizar esta acción.');    
 		if(isset($_POST['Usuarios']))
 		{
                         
@@ -109,6 +161,7 @@ class UsuariosController extends Controller
                                 $model->_RPT_CONTRASENA = md5($model->_RPT_CONTRASENA);
                        
                         }
+                         $model->PRIMER_LOGIN=0;
 			//$model->CONTRASENA=md5($model->CONTRASENA); //Encriptar en MD5
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->ID_USUARIO));
@@ -117,7 +170,7 @@ class UsuariosController extends Controller
                    $model->_RPT_CONTRASENA = '';
 		}
 
-		$this->render('update',array(
+		$this->render('updateProfile',array(
 			'model'=>$model,
 		));
 	}
@@ -266,4 +319,5 @@ class UsuariosController extends Controller
             }
             return $pass;
           }
+          
 }

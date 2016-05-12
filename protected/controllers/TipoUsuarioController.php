@@ -31,7 +31,7 @@ class TipoUsuarioController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','admin','delete','index','view'),
 				//'users'=>array('@'),
-				'expression'=>'$user->A1()',
+				'expression'=>'$user->A1()&&!$user->isFTime()',
 			),
 			array('deny',  // deny all users
 				'users'=>array('@'),
@@ -148,7 +148,7 @@ class TipoUsuarioController extends Controller
 	{
 		$model=TipoUsuario::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException("Web no encontrada",'La página solicitada no existe.');
+			throw new CHttpException("Web no encontrada",'La pï¿½gina solicitada no existe.');
 		return $model;
 	}
 

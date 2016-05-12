@@ -38,7 +38,18 @@ class TicketController extends Controller
 		return array(
 			//R
 		
-			
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('view', 'create','admin','captcha','upload','closeTicket','listHeadquarter','messageClient','approve','repprove'),
+				'expression'=>'$user->C1()&&!$user->isFTime()',
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('view','admin','captcha','upload','listUser','RemedyTicket','MessageTicket'),
+				'expression'=>'($user->A1()||$user->A2())&&!$user->isFTime()',
+			),
+                        array('allow', 
+                                'actions'=>array('DeleteOldFile','automaticEmail'),
+				'users'=>array('*'),
+			),
 			
 			
 			array('allow',  // deny all users

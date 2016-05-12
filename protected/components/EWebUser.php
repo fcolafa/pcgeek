@@ -85,7 +85,7 @@ class EWebUser extends CWebUser{
 
     {
 
-        $sql = "SELECT ID_USUARIO, COD_TIPO_USUARIO FROM usuarios Where NOMBRE_USUARIO=:value";
+        $sql = "SELECT ID_USUARIO, COD_TIPO_USUARIO ,PRIMER_LOGIN FROM usuarios Where NOMBRE_USUARIO=:value";
 
         $params=array(':value'=>$this->id);
 
@@ -104,11 +104,21 @@ class EWebUser extends CWebUser{
         {
             $user = $this->loadUser(Yii::app()->user->id);
             $t = $user->ID_USUARIO;
-            
-
         }else {
             $t = '';            
             
+        }
+        return $t;
+    }
+    function isFTime(){
+        if (Yii::app()->user->id != '')
+        {   $user = $this->loadUser(Yii::app()->user->id);
+            $t = $user->PRIMER_LOGIN;
+            
+                
+        }
+        else{
+            $t=1;
         }
         return $t;
     }

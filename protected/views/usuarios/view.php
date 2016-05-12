@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 	'Usuarios'=>array('index'),
 	$model->NOMBRE_USUARIO,
 );
-
+if(Yii::app()->user->A1()){
 $this->menu=array(
 	array('label'=>'Ver Usuarios', 'url'=>array('index')),
 	array('label'=>'Crear Usuarios', 'url'=>array('create')),
@@ -14,6 +14,15 @@ $this->menu=array(
 	array('label'=>'Borrar Usuarios', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID_USUARIO),'confirm'=>'está usted seguro que desea eliminar del sistema este elemento?')),
 	array('label'=>'Administrar Usuarios', 'url'=>array('admin')),
 );
+}else{
+$this->menu=array(
+	array('label'=>'Ver Usuarios', 'url'=>array('index')),
+	array('label'=>'Crear Usuarios', 'url'=>array('create')),
+	//array('label'=>'Actualizar Usuarios', 'url'=>array('update', 'id'=>$model->ID_USUARIO)),
+	//array('label'=>'Borrar Usuarios', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID_USUARIO),'confirm'=>'está usted seguro que desea eliminar del sistema este elemento?')),
+	array('label'=>'Administrar Usuarios', 'url'=>array('admin')),
+);
+}
 ?>
 
 <div class="panel panel-primary">

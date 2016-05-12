@@ -30,7 +30,7 @@ class CanalCamarasController extends Controller
 			//CRUD todos los permisos otorgados a las cuentas indicadas
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','admin','delete','index','view'),
-				'expression'=>'$user->A1()',
+				'expression'=>'$user->A1()&&!$user->isFTime()',
 			),
 			
 			array('deny',  // deny all users

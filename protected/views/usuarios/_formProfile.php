@@ -17,26 +17,22 @@
 	)); ?>
 
 	<p class="note">Campos con <span class="required">*</span> son obligatorios.</p>
-      
-     
+        <?php
+        if($model->PRIMER_LOGIN==0){ ?>
+            <p class="note">Antes de poder realizar cualquier accion debe actualizar sus datos </p>
+        <?php }?>
 	<?php echo $form->errorSummary($model); ?>
         
-        <?php if(Yii::app()->user->A1()){ ?>
+       
 	<div class="form-group">
-            
-                
-		<div class="col-md-4">
-			<?php echo $form->labelEx($model,'COD_TIPO_USUARIO'); ?>
-			<?php echo $form->dropDownList($model,'COD_TIPO_USUARIO', CHtml::listData(TipoUsuario::model()->findAll(), 'COD_TIPO_USUARIO', 'TIPO_USUARIO'), array('prompt'=>'Seleccione tipo de Usuario', 'id'=>'cb_tipo_usuario', 'class'=>'form-control')); ?>
-			<?php echo $form->error($model,'COD_TIPO_USUARIO'); ?>
-		</div>		
-		<div class="col-md-4">
+
+		<div class="col-md-6">
 			<?php echo $form->labelEx($model,'NOMBRE_USUARIO'); ?>
 			<?php echo $form->textField($model,'NOMBRE_USUARIO',array("class"=>"form-control", 'maxlength'=>50)); ?>
 			<?php echo $form->error($model,'NOMBRE_USUARIO'); ?>
 		</div>
-        <?php } ?>
-                <div  class="col-md-4">
+     
+                <div  class="col-md-6">
 			<?php echo $form->labelEx($model,'EMAIL_USUARIO'); ?>
 			<?php echo $form->textField($model,'EMAIL_USUARIO', array( 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'EMAIL_USUARIO'); ?>
@@ -66,32 +62,7 @@
         </div>
         </div>
 
-	<div id="tecnico_cliente" class="form-group">
-		<div id="tecnicos" class="col-md-4">
-			<?php echo $form->labelEx($model,'ID_TECNICO'); ?>
-			<?php echo CHtml::ajaxLink(Yii::t('tech','Crear nuevo técnico'),$this->createUrl('usuarios/nuevoTecnico'),array(
-									        'onclick'=>'$("#techDialog").dialog("open"); return false;',
-									        'update'=>'#techDialog'
-									        ),array('id'=>'showTechDialog'));?>
-				<div id="techDialog"></div>
 
-			<?php echo $form->dropDownList($model,'ID_TECNICO', CHtml::listData(Tecnicos::model()->findAll(), 'ID_TECNICO', 'nombreCompleto'), array('prompt'=>'Seleccione un Tecnico', 'class'=>'form-control')); ?>
-			<?php echo $form->error($model,'ID_TECNICO'); ?>
-		</div>
-		<div id= "clientes" class="col-md-4">
-			<?php echo $form->labelEx($model,'ID_CLIENTE'); ?>
-			<?php //echo CHtml::ajaxLink(Yii::t('suc','Crear nuevo cliente'),$this->createUrl('usuarios/nuevaSucursal'),array(
-				  //					        'onclick'=>'$("#sucDialog").dialog("open"); return false;',
-				  //					        'update'=>'#sucDialog'
-				  //					        ),array('id'=>'showSucDialog'));?>
-				<div id="sucDialog"></div>
-
-			<?php echo $form->dropDownList($model,'ID_CLIENTE', CHtml::listData(Clientes::model()->findAll(), 'ID_CLIENTE', 'NOMBRE_CLIENTE'), array('prompt'=>'o seleccione un Cliente', 'class'=>'form-control')); ?>
-			<?php echo $form->error($model,'ID_CLIENTE'); ?>
-		</div>
-		
-            
-	</div>
         <br>
 	<div class="form-group">
 		<div class="col-md-offset-4 col-sm-8">

@@ -30,7 +30,14 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+                $user= Usuarios::model()->findByPk(Yii::app()->user->getUser_Id());
+                if($user->PRIMER_LOGIN==1)
+                        $this->redirect (array('Usuarios/updateProfile','id'=>Yii::app()->user->getUser_Id()));
+                    else
+                          $this->render('index');
+              
+                    
+	//	$this->render('index');
 	}
 
 	/**

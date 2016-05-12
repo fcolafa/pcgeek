@@ -44,7 +44,10 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+
+<?php 
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'usuarios-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
@@ -69,10 +72,19 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		),
 		array(
 			'header'=>'Opciones',
-			'class'=>'CButtonColumn',
+                        'class'=>'CButtonColumn',
+                        'template'=>'{view}{update}{delete}',
+                        'buttons'=>array(
+                            'update'=>array(
+                             //   'imageUrl'=>Yii::app()->request->baseUrl.'/images/use.png',
+                           // 'url'=>'UsuariosController::getAdminAction($data->ID_USUARIO);',                          
+                            'url'=>'Yii::app()->user->A1()?Yii::app()->controller->createUrl("update",array("id"=>$data->ID_USUARIO)):Yii::app()->controller->createUrl("updateProfile",array("id"=>$data->ID_USUARIO));',
+                           'visible'=>'Yii::app()->user->getUser_Id()==$data->ID_USUARIO',    
+                         ),
 
 		),
-	),
+                    ),),
+	
 	)); 
 ?>
 	</div>
